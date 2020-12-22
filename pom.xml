@@ -44,8 +44,8 @@
     </developers>
 
     <issueManagement>
-        <system>jira</system>
-        <url>http://jira.structured.cn</url>
+        <system>Github</system>
+        <url>https://github.com/structure-projects/structure-dependencies/issues</url>
     </issueManagement>
 
     <scm>
