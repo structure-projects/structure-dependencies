@@ -13,7 +13,7 @@
 
     <groupId>cn.structured</groupId>
     <artifactId>structure-dependencies</artifactId>
-    <version>1.0.1.SNAPSHOT</version>
+    <version>1.0.1.RELEASE</version>
 
     <name>structure-dependencies</name>
     <description>主要整合依赖的版本，防止在快速构建项目时出现依赖冲突的问题</description>
@@ -314,7 +314,6 @@
                 <version>3.1.1</version>
                 <configuration>
                     <encoding>${encoding}</encoding>
-                    <aggregate>true</aggregate>
                     <charset>${encoding}</charset>
                     <docencoding>${encoding}</docencoding>
                 </configuration>
