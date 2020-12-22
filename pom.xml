@@ -13,7 +13,7 @@
 
     <groupId>cn.structured</groupId>
     <artifactId>structure-dependencies</artifactId>
-    <version>${revision}</version>
+    <version>1.0.2${revision}</version>
 
     <name>structure-dependencies</name>
     <description>主要整合依赖的版本，防止在快速构建项目时出现依赖冲突的问题</description>
@@ -55,7 +55,7 @@
     </scm>
 
     <properties>
-        <revision>1.0.1.SNAPSHOT</revision>
+        <revision>.SNAPSHOT</revision>
         <!-- jdk -->
         <encoding>UTF-8</encoding>
         <java.version>1.8</java.version>
@@ -371,7 +371,7 @@
         <profile>
             <id>release</id>
             <properties>
-                <revision>1.0.1.RELEASE</revision>
+                <revision>.RELEASE</revision>
             </properties>
             <build>
                 <plugins>
