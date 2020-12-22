@@ -13,7 +13,7 @@
 
     <groupId>cn.structured</groupId>
     <artifactId>structure-dependencies</artifactId>
-    <version>1.0.1.SNAPSHOT</version>
+    <version>${revision}</version>
 
     <name>structure-dependencies</name>
     <description>主要整合依赖的版本，防止在快速构建项目时出现依赖冲突的问题</description>
@@ -55,9 +55,20 @@
     </scm>
 
     <properties>
+        <revision>1.0.1.SNAPSHOT</revision>
         <!-- jdk -->
         <encoding>UTF-8</encoding>
         <java.version>1.8</java.version>
+        <charset>UTF-8</charset>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>${charset}</project.build.sourceEncoding>
+        <nexus.staging.maven.plugin>1.6.7</nexus.staging.maven.plugin>
+        <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+        <maven.compiler.plugin.version>2.5</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>2.5</maven.surefire.plugin.version>
+        <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
+        <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
+        <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
         <!--spring boot version -->
         <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
@@ -354,26 +365,75 @@
                 </configuration>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <!-- Gpg Signature -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
-                    <executions>
-                        <execution>
-                            <id>oss</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <revision>1.0.1.RELEASE</revision>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus.staging.maven.plugin}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven.source.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven.javadoc.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven.gpg.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 
     <distributionManagement>
         <snapshotRepository>
